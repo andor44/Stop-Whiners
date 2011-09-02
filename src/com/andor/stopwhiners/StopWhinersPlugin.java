@@ -1,0 +1,92 @@
+/*
+ * StopWhiners CraftBukkit plugin
+ * 
+ * Licensed under the zlib/png license
+ * 
+ * Copyright (c) 2011 Andor Uhlár
+ * This software is provided 'as-is', without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.
+ * Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions:
+ * 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ * 
+ */
+
+package com.andor.stopwhiners;
+
+import java.util.HashMap;
+import java.util.logging.Logger;
+import java.util.List;
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.event.Event;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.entity.Player;
+
+public class StopWhinersPlugin extends JavaPlugin {
+	private final Logger logger = Logger.getLogger("Minecraft");
+	private final StopWhinersEntityListener entityListener = new StopWhinersEntityListener(this);
+	
+	private final HashMap<Player, List<ItemStack>> lastDrops = new HashMap<Player, List<ItemStack>>();
+	
+	@Override
+	public void onDisable() {
+		getLogger().info("StopWhiners was disabled. Goodbye cruel world.");
+		
+	}
+
+	@Override
+	public void onEnable() {
+		getLogger().info("StopWhiners was enabled. Yayifications!.");
+		PluginManager pm = this.getServer().getPluginManager();
+		pm.registerEvent(Event.Type.ENTITY_DEATH, entityListener, Event.Priority.Normal, this);
+	}
+	
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
+	{
+		if (!cmd.getName().equalsIgnoreCase("giveback"))
+			return true;
+		
+		if (!sender.isOp())
+		{
+			sender.sendMessage("nope.avi");
+			return true;
+		}
+		if (args.length < 1)
+			return false;
+		
+		for (int i = 0; i < args.length; i++) {
+			if (lastDrops.containsKey(getServer().getPlayer(args[i])))
+			{
+				// getServer().getPlayer(args[i]).getInventory().setContents(lastDrops.get(getServer().getPlayer(args[i]))); // dongs, this should work but does not
+				for (int j = 0; j < lastDrops.get(getServer().getPlayer(args[j])).size(); ++j)
+				{
+					getServer().getPlayer(args[i]).getInventory().addItem(lastDrops.get(getServer().getPlayer(args[i])).get(j));
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	/**
+	 * @return the lastDrops
+	 */
+	public HashMap<Player, List<ItemStack>> getLastDrops() {
+		return lastDrops;
+	}
+
+	/**
+	 * @return the logger
+	 */
+	public Logger getLogger() {
+		return logger;
+	}
+
+}
+
+
