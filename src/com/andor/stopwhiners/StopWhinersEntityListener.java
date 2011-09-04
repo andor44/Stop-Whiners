@@ -33,7 +33,11 @@ public class StopWhinersEntityListener extends EntityListener {
 		{
 			Player player = (Player)evnt.getEntity();
 			plugin.getLastDrops().put(player, evnt.getDrops());
-			plugin.getLogger().info("Player '" + player.getName() +"' was killed. Death cause: " + player.getLastDamageCause().getEntity().toString() + " (" + player.getLastDamageCause().getCause().name() + ")");
+			try {
+				plugin.getLogger().info("Player '" + player.getName() +"' was killed. Death cause: " + player.getLastDamageCause().getEntity().toString() + " (" + player.getLastDamageCause().getCause().name() + ")");
+			} catch (Exception e) {
+				//plugin.getLogger().info("Player '" + player.getName() + "' suicided?");
+			}
 		}
 		else return;
 	}

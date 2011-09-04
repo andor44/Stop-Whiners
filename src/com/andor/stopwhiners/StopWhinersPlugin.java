@@ -66,9 +66,9 @@ public class StopWhinersPlugin extends JavaPlugin {
 				for (int j = 0; j < lastDrops.get(getServer().getPlayer(args[i])).size(); ++j)
 				{
 					getServer().getPlayer(args[i]).getInventory().addItem(lastDrops.get(getServer().getPlayer(args[i])).get(j));
-					logger.info("Restoring items to: " + args[i]);
-					sender.sendMessage("Restoring items to: " + args[i]);
 				}
+				logger.info("Restoring items to: " + args[i]);
+				sender.sendMessage("Restoring items to: " + args[i]);
 			}
 			else sender.sendMessage("I have no record of player '" + args[i] + "'");
 		}
