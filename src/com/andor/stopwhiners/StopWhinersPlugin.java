@@ -63,7 +63,7 @@ public class StopWhinersPlugin extends JavaPlugin {
 			if (lastDrops.containsKey(getServer().getPlayer(args[i])))
 			{
 				// getServer().getPlayer(args[i]).getInventory().setContents(lastDrops.get(getServer().getPlayer(args[i]))); // dongs, this should work but does not
-				for (int j = 0; j < lastDrops.get(getServer().getPlayer(args[j])).size(); ++j)
+				for (int j = 0; j < lastDrops.get(getServer().getPlayer(args[i])).size(); ++j)
 				{
 					getServer().getPlayer(args[i]).getInventory().addItem(lastDrops.get(getServer().getPlayer(args[i])).get(j));
 					logger.info("Restoring items to: " + args[i]);
