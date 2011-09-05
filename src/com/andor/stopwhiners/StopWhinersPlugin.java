@@ -51,11 +51,12 @@ public class StopWhinersPlugin extends JavaPlugin {
 		if (!cmd.getName().equalsIgnoreCase("giveback"))
 			return true;
 		
-		if (!sender.isOp())
+		if (!sender.isOp() || !sender.hasPermission("stopwhiners.giveback"))
 		{
 			sender.sendMessage("nope.avi");
 			return true;
 		}
+		
 		if (args.length < 1)
 			return false;
 		
@@ -64,9 +65,8 @@ public class StopWhinersPlugin extends JavaPlugin {
 			{
 				// getServer().getPlayer(args[i]).getInventory().setContents(lastDrops.get(getServer().getPlayer(args[i]))); // dongs, this should work but does not
 				for (int j = 0; j < lastDrops.get(getServer().getPlayer(args[i])).size(); ++j)
-				{
 					getServer().getPlayer(args[i]).getInventory().addItem(lastDrops.get(getServer().getPlayer(args[i])).get(j));
-				}
+				
 				logger.info("Restoring items to: " + args[i]);
 				sender.sendMessage("Restoring items to: " + args[i]);
 			}

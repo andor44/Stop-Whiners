@@ -2,4 +2,5 @@ StopWhiners plugin
 
 Only usable by OPs
 
-use /giveback [player names]
+Use /giveback [player names]
+Use stopwhiners.giveback Permissions node to give people the abiltiy to restore items
