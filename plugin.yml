@@ -7,5 +7,5 @@ commands:
         description: Give back items lost upon death to players. Accepts more than one name.
         usage: /giveback [list of players]
     getback:
-    	description: Get back your items lost upon death. 
-    	usage: /getback
+        description: Get back your items lost upon death. 
+        usage: /getback
