@@ -103,7 +103,10 @@ public class StopWhinersPlugin extends JavaPlugin {
 					{
 						Account acc = iconomy.getAccount(player.getName()); // i don't know a lot about this iconomy stuff, so i'm rather nesting ifs, instead of getting gajillions of nullref exceptions
 						if (acc.getHoldings().hasEnough(5.0))               // can't debug this stuff live until the weekend :(
+						{
 							canGetback = true;
+							acc.getHoldings().subtract(5.0);
+						}
 					}
 					
 				}
