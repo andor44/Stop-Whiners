@@ -48,29 +48,45 @@ public class StopWhinersPlugin extends JavaPlugin {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
 	{
-		if (!cmd.getName().equalsIgnoreCase("giveback"))
-			return true;
-		
-		if (!sender.isOp() || !sender.hasPermission("stopwhiners.giveback"))
+		if (cmd.getName().equalsIgnoreCase("giveback"))
 		{
-			sender.sendMessage("nope.avi");
+			if (!sender.isOp() || !sender.hasPermission("stopwhiners.giveback"))
+			{
+				sender.sendMessage("nope.avi");
+				return true;
+			}
+			
+			if (args.length < 1)
+				return false;
+			
+			for (int i = 0; i < args.length; i++) {
+				if (lastDrops.containsKey(getServer().getPlayer(args[i])))
+				{
+					// getServer().getPlayer(args[i]).getInventory().setContents(lastDrops.get(getServer().getPlayer(args[i]))); // dongs, this should work but does not
+					for (int j = 0; j < lastDrops.get(getServer().getPlayer(args[i])).size(); ++j)
+						getServer().getPlayer(args[i]).getInventory().addItem(lastDrops.get(getServer().getPlayer(args[i])).get(j));
+					
+					logger.info("Restoring items to: " + args[i]);
+					sender.sendMessage("Restoring items to: " + args[i]);
+				}
+				else sender.sendMessage("I have no record of player '" + args[i] + "'");
+			}
 			return true;
 		}
-		
-		if (args.length < 1)
-			return false;
-		
-		for (int i = 0; i < args.length; i++) {
-			if (lastDrops.containsKey(getServer().getPlayer(args[i])))
+		else if (cmd.getName().equalsIgnoreCase("getback"))
+		{
+			if (!sender.isOp() || !sender.hasPermission("stopwhiners.getback"))
 			{
-				// getServer().getPlayer(args[i]).getInventory().setContents(lastDrops.get(getServer().getPlayer(args[i]))); // dongs, this should work but does not
-				for (int j = 0; j < lastDrops.get(getServer().getPlayer(args[i])).size(); ++j)
-					getServer().getPlayer(args[i]).getInventory().addItem(lastDrops.get(getServer().getPlayer(args[i])).get(j));
-				
-				logger.info("Restoring items to: " + args[i]);
-				sender.sendMessage("Restoring items to: " + args[i]);
+				sender.sendMessage("nope.avi");
+				return true;
 			}
-			else sender.sendMessage("I have no record of player '" + args[i] + "'");
+			if (sender instanceof Player)
+			{
+				Player player = (Player)sender;
+				for (int i = 0; i < lastDrops.get(player).size(); i++)
+					player.getInventory().addItem(lastDrops.get(player).get(i));
+			}
+			return true;
 		}
 		
 		return true;
