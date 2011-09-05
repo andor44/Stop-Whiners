@@ -26,9 +26,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.entity.Player;
 
+import com.iConomy.iConomy;
+import com.iConomy.system.Account;
+
 public class StopWhinersPlugin extends JavaPlugin {
 	private final Logger logger = Logger.getLogger("Minecraft");
 	private final StopWhinersEntityListener entityListener = new StopWhinersEntityListener(this);
+	private iConomy iconomy;
+	private boolean iconomyEnabled = false;
 	
 	private final HashMap<Player, List<ItemStack>> lastDrops = new HashMap<Player, List<ItemStack>>();
 	
@@ -43,8 +48,16 @@ public class StopWhinersPlugin extends JavaPlugin {
 		getLogger().info("StopWhiners was enabled. Yayifications!.");
 		PluginManager pm = this.getServer().getPluginManager();
 		pm.registerEvent(Event.Type.ENTITY_DEATH, entityListener, Event.Priority.Normal, this);
+		iconomy = (iConomy) pm.getPlugin("iConomy");
+		if (iconomy != null)
+		{
+			if (iconomy.isEnabled() && iconomy.getClass().getName().equals("com.iConomy.iConomy")) {
+                logger.info("iConomy support enabled in StopWhiners!"); iconomyEnabled = true;
+            }
+		}
 	}
 	
+	@SuppressWarnings("static-access")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
 	{
@@ -83,8 +96,24 @@ public class StopWhinersPlugin extends JavaPlugin {
 			if (sender instanceof Player)
 			{
 				Player player = (Player)sender;
-				for (int i = 0; i < lastDrops.get(player).size(); i++)
-					player.getInventory().addItem(lastDrops.get(player).get(i));
+				boolean canGetback = false;
+				if (iconomyEnabled)
+				{
+					if (iconomy.hasAccount(player.getName()))
+					{
+						Account acc = iconomy.getAccount(player.getName()); // i don't know a lot about this iconomy stuff, so i'm rather nesting ifs, instead of getting gajillions of nullref exceptions
+						if (acc.getHoldings().hasEnough(5.0))               // can't debug this stuff live until the weekend :(
+							canGetback = true;
+					}
+					
+				}
+				else canGetback = true;
+				if (canGetback)
+				{
+					for (int i = 0; i < lastDrops.get(player).size(); i++)
+						player.getInventory().addItem(lastDrops.get(player).get(i));
+				}
+				else player.sendMessage("You either do not have sufficient funds (5.0) to buy back your stuff or you don't have an account.");
 			}
 			return true;
 		}
