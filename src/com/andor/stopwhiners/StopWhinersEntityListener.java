@@ -16,9 +16,11 @@ package com.andor.stopwhiners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityListener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
-public class StopWhinersEntityListener extends EntityListener {
+public class StopWhinersEntityListener implements Listener {
 	private final StopWhinersPlugin plugin;
 	
 	public StopWhinersEntityListener(StopWhinersPlugin instance)
@@ -26,15 +28,15 @@ public class StopWhinersEntityListener extends EntityListener {
 		plugin = instance;
 	}
 	
-	@Override
-	public void onEntityDeath(EntityDeathEvent evnt)
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onPlayerDeath(EntityDeathEvent evnt)
 	{
 		if (evnt.getEntity() instanceof Player)
 		{
 			Player player = (Player)evnt.getEntity();
 			plugin.getLastDrops().put(player, evnt.getDrops());
 			try {
-				plugin.getLogger().info("Player '" + player.getName() +"' was killed. Death cause: " + player.getLastDamageCause().getEntity().toString() + " (" + player.getLastDamageCause().getCause().name() + ")");
+				plugin.getLogger().info("Player '" + player.getName() + "' was killed. Death cause: " + player.getLastDamageCause().getEntity().toString() + " (" + player.getLastDamageCause().getCause().name() + ")");
 			} catch (Exception e) {
 				//plugin.getLogger().info("Player '" + player.getName() + "' suicided?");
 			}
