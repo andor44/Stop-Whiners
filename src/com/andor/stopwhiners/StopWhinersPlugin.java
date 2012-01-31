@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +41,7 @@ public class StopWhinersPlugin extends JavaPlugin {
 	public void onEnable() {
 		getLogger().info("StopWhiners was enabled. Yayifications!.");
 		PluginManager pm = this.getServer().getPluginManager();
-		pm.registerEvent(Event.Type.ENTITY_DEATH, entityListener, Event.Priority.Normal, this);
+		pm.registerEvents(entityListener, this);
 	}
 	
 	@Override
@@ -52,7 +51,7 @@ public class StopWhinersPlugin extends JavaPlugin {
 		{
 			if (!sender.isOp() || !sender.hasPermission("stopwhiners.giveback"))
 			{
-				sender.sendMessage("nope.avi");
+				sender.sendMessage("Unauthorized");
 				return true;
 			}
 			
@@ -77,7 +76,7 @@ public class StopWhinersPlugin extends JavaPlugin {
 		{
 			if (!sender.isOp() || !sender.hasPermission("stopwhiners.getback"))
 			{
-				sender.sendMessage("nope.avi");
+				sender.sendMessage("Unauthorized");
 				return true;
 			}
 			if (sender instanceof Player)
