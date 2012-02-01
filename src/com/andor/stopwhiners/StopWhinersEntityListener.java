@@ -19,6 +19,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 
 public class StopWhinersEntityListener implements Listener {
 	private final StopWhinersPlugin plugin;
@@ -28,13 +29,17 @@ public class StopWhinersEntityListener implements Listener {
 		plugin = instance;
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerDeath(EntityDeathEvent evnt)
 	{
 		if (evnt.getEntity() instanceof Player)
 		{
 			Player player = (Player)evnt.getEntity();
 			plugin.getLastDrops().put(player, evnt.getDrops());
+			player.getInventory().clear(); //BUG: experimental, theoretically should work
+			for (ItemStack stack : evnt.getDrops()) {
+				stack.setAmount(0); //BUG: experimental, should work
+			}
 			try {
 				plugin.getLogger().info("Player '" + player.getName() + "' was killed. Death cause: " + player.getLastDamageCause().getEntity().toString() + " (" + player.getLastDamageCause().getCause().name() + ")");
 			} catch (Exception e) {
