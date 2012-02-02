@@ -47,7 +47,7 @@ public class StopWhinersPlugin extends JavaPlugin {
 		getLogger().info("StopWhiners was enabled. Yayifications!.");
 		PluginManager pm = this.getServer().getPluginManager();
 		pm.registerEvents(entityListener, this);
-		
+
 		Methods.setMethod(getServer().getPluginManager());
 		Methods.setPreferred("iConomy");
 		if(Methods.hasMethod())
@@ -64,7 +64,7 @@ public class StopWhinersPlugin extends JavaPlugin {
 		{
 			if (!sender.isOp() || !sender.hasPermission("stopwhiners.giveback"))
 			{
-				sender.sendMessage("Unathorized");
+				sender.sendMessage("Unauthorized");
 				return true;
 			}
 			
@@ -74,10 +74,9 @@ public class StopWhinersPlugin extends JavaPlugin {
 			for (int i = 0; i < args.length; i++) {
 				if (lastDrops.containsKey(getServer().getPlayer(args[i])))
 				{
-					// getServer().getPlayer(args[i]).getInventory().setContents(lastDrops.get(getServer().getPlayer(args[i]))); // dongs, this should work but does not
-					for (int j = 0; j < lastDrops.get(getServer().getPlayer(args[i])).size(); ++j)
-						getServer().getPlayer(args[i]).getInventory().addItem(lastDrops.get(getServer().getPlayer(args[i])).get(j));
-					
+					getServer().getPlayer(args[i]).getInventory().setContents((ItemStack[]) lastDrops.get(getServer().getPlayer(args[i])).toArray() ); // dongs, this should work but does not
+					//for (int j = 0; j < lastDrops.get(getServer().getPlayer(args[i])).size(); ++j)
+					//	getServer().getPlayer(args[i]).getInventory().addItem(lastDrops.get(getServer().getPlayer(args[i])).get(j));
 					logger.info("Restoring items to: " + args[i]);
 					sender.sendMessage("Restoring items to: " + args[i]);
 				}
