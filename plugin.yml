@@ -22,3 +22,6 @@ permissions:
     stopwhiners.getback:
         description: Gets your items back lost on the last death
         default: op
+    stopwhiners.auto:
+        description: Automatically restores your items after respawning
+        default: false
