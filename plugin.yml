@@ -16,9 +16,13 @@ permissions:
         children:
             stopwhiners.giveback: false
             stopwhiners.getback: false
+            stopwhiners.auto: false
     stopwhiners.giveback:
         description: Gives back the items lost on the last death to user
         default: op
     stopwhiners.getback:
         description: Gets your items back lost on the last death
         default: op
+    stopwhiners.auto:
+        description: Automatically restores your items after respawning
+        default: false
