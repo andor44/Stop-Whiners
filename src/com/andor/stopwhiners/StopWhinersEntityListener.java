@@ -19,6 +19,8 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class StopWhinersEntityListener implements Listener {
 	private final StopWhinersPlugin plugin;
@@ -42,5 +44,18 @@ public class StopWhinersEntityListener implements Listener {
 			}
 		}
 		else return;
+	}
+	
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onPlayerSpawn(CreatureSpawnEvent evnt)
+	{
+		if (evnt.getEntity() instanceof Player)
+		{
+			Player player = (Player)evnt.getEntity();
+			if (player.hasPermission("stopwhiners.auto") && plugin.getLastDrops().containsKey(player.getName()))
+			{
+				player.getInventory().setContents((ItemStack[]) plugin.getLastDrops().get(player).toArray());
+			}
+		}
 	}
 }
