@@ -9,3 +9,20 @@ commands:
     getback:
         description: Get back your items lost upon death. 
         usage: /getback
+        
+permissions:
+    stopwhiners.*:
+        description: Gives access to item returning commands
+        children:
+            stopwhiners.giveback: false
+            stopwhiners.getback: false
+            stopwhiners.auto: false
+    stopwhiners.giveback:
+        description: Gives back the items lost on the last death to user
+        default: op
+    stopwhiners.getback:
+        description: Gets your items back lost on the last death
+        default: op
+    stopwhiners.auto:
+        description: Automatically restores your items after respawning
+        default: false
