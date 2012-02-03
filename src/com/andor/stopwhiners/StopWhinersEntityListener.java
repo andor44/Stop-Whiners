@@ -20,7 +20,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class StopWhinersEntityListener implements Listener {
 	private final StopWhinersPlugin plugin;
@@ -54,7 +53,8 @@ public class StopWhinersEntityListener implements Listener {
 			Player player = (Player)evnt.getEntity();
 			if (player.hasPermission("stopwhiners.auto") && plugin.getLastDrops().containsKey(player.getName()))
 			{
-				player.getInventory().setContents((ItemStack[]) plugin.getLastDrops().get(player).toArray());
+				for (int j = 0; j < plugin.getLastDrops().get(player).size(); ++j)
+					player.getInventory().addItem(plugin.getLastDrops().get(player).get(j));
 			}
 		}
 	}
