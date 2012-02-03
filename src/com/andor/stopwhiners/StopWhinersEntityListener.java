@@ -58,7 +58,8 @@ public class StopWhinersEntityListener implements Listener {
 			Player player = (Player)evnt.getEntity();
 			if (player.hasPermission("stopwhiners.auto") && plugin.getLastDrops().containsKey(player.getName()))
 			{
-				player.getInventory().setContents((ItemStack[]) plugin.getLastDrops().get(player).toArray());
+				for (int j = 0; j < plugin.getLastDrops().get(player).size(); ++j)
+					player.getInventory().addItem(plugin.getLastDrops().get(player).get(j));
 			}
 		}
 	}
