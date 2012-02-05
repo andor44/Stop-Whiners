@@ -49,7 +49,7 @@ public class StopWhinersPlugin extends JavaPlugin {
 	{
 		if (cmd.getName().equalsIgnoreCase("giveback"))
 		{
-			if (!sender.isOp() || !sender.hasPermission("stopwhiners.giveback"))
+			if (!sender.isOp() && !sender.hasPermission("stopwhiners.giveback"))
 			{
 				sender.sendMessage("Unauthorized");
 				return true;
@@ -73,7 +73,7 @@ public class StopWhinersPlugin extends JavaPlugin {
 		}
 		else if (cmd.getName().equalsIgnoreCase("getback"))
 		{
-			if (!sender.isOp() || !sender.hasPermission("stopwhiners.getback"))
+			if (!sender.isOp() && !sender.hasPermission("stopwhiners.getback"))
 			{
 				sender.sendMessage("Unauthorized");
 				return true;
